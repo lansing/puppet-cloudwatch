@@ -31,7 +31,9 @@ Puppet::Reports.register_report(:cloudwatch) do
         end
         value = val[2]
         opts = {}
-        opts = {:metric_name => name, :namespace => 'Puppet', :value => value, :unit => unit, :dimensions => [{'Name' => 'Hostname', 'Value' => self.host}]}
+        opts = {:metric_name => name, :namespace => 'Puppet', :value => value, :unit => unit,
+                :dimensions => [{'Name' => 'Hostname', 'Value' => self.host},
+                                {'Name' => 'Environment', 'Value' => self.environment}]}
         @cw = Fog::AWS::CloudWatch.new(:aws_access_key_id => ACCESS_KEY_ID, :aws_secret_access_key => SECRET_ACCESS_KEY)
         @cw.metric_statistics.create(opts)
       }
